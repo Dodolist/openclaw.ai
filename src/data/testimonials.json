@@ -388,5 +388,10 @@
     "quote": "making my own @clawdbot has been the most fun experience in the last few days. i haven't slept much but oh boy is my life getting more automated",
     "author": "thekitze",
     "url": "https://x.com/thekitze/status/2007903543022563471"
+  },
+  {
+    "quote": "clawdbot update: rebuilt my entire personal site via telegram last night while watching netflix in bed. notion → astro, 18 posts migrated, dns moved to cloudflare. never opened my laptop.",
+    "author": "davekiss",
+    "url": "https://x.com/davekiss/status/2008994096736817624"
   }
 ]
