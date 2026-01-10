@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import testimonials from '../data/testimonials.json';
 import extraTestimonials from '../data/testimonials-extra.json';
 
-// Combine all testimonials
+// Combine all testimonials - strongest first, then extras (no randomization)
 const allTestimonials = [...testimonials, ...extraTestimonials];
 ---
 

@@ -1,21 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import testimonials from '../data/testimonials.json';
-import extraTestimonials from '../data/testimonials-extra.json';
 
-// Mix 80% strong + 20% extra for variety
-const strong1 = testimonials.slice(0, 15);
-const strong2 = testimonials.slice(15);
-const extra1 = extraTestimonials.slice(0, 4);
-const extra2 = extraTestimonials.slice(4, 8);
-
-// Interleave extras into strong testimonials
-const mixed1 = [...strong1.slice(0, 5), extra1[0], ...strong1.slice(5, 10), extra1[1], ...strong1.slice(10), extra1[2], extra1[3]];
-const mixed2 = [...strong2.slice(0, 5), extra2[0], ...strong2.slice(5, 10), extra2[1], ...strong2.slice(10), extra2[2], extra2[3]];
+// Split top 30 into two rows for carousel
+const half = Math.ceil(testimonials.length / 2);
+const topRow = testimonials.slice(0, half);
+const bottomRow = testimonials.slice(half);
 
 // Duplicate for seamless loop
-const row1 = [...mixed1, ...mixed1];
-const row2 = [...mixed2, ...mixed2];
+const row1 = [...topRow, ...topRow];
+const row2 = [...bottomRow, ...bottomRow];
 
 // Calculate animation duration based on content length for constant speed
 // Each card is ~336px (320px min-width + 16px gap), speed = 50px/s
