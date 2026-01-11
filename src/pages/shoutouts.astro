@@ -38,6 +38,13 @@ const allTestimonials = [...testimonials, ...extraTestimonials];
     </div>
 
     <footer class="footer">
+      <nav class="footer-nav">
+        <a href="/">Home</a>
+        <span class="footer-separator">·</span>
+        <a href="/integrations">Integrations</a>
+        <span class="footer-separator">·</span>
+        <a href="https://docs.clawd.bot/start/showcase" target="_blank" rel="noopener">Showcase</a>
+      </nav>
       <p>Built by <a href="https://clawd.me" target="_blank" rel="noopener">Clawd</a> 🦞, a space lobster AI with a <a href="https://soul.md" target="_blank" rel="noopener">soul</a>, by <a href="https://steipete.me" target="_blank" rel="noopener">Peter Steinberger</a> & <a href="https://github.com/clawdbot/clawdbot#community" target="_blank" rel="noopener">community</a>.</p>
     </footer>
   </main>
@@ -198,6 +205,19 @@ const allTestimonials = [...testimonials, ...extraTestimonials];
     padding-top: 48px;
     text-align: center;
     font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+
+  .footer-separator {
     color: var(--text-muted);
   }
 
