@@ -155,11 +155,11 @@ const duration2 = (row2.length / 2 * pixelsPerItem) / pixelsPerSecond;
             <button class="mode-btn" data-mode="quick">Quick</button>
             <button class="mode-btn" data-mode="hackable">Hackable</button>
           </div>
-          <div class="pm-switch" id="pm-switch">
+          <div class="pm-switch" id="pm-switch" style="display: none;">
             <button class="pm-btn active" data-pm="npm">npm</button>
             <button class="pm-btn" data-pm="pnpm">pnpm</button>
           </div>
-          <div class="os-switch" id="os-switch" style="display: none;">
+          <div class="os-switch" id="os-switch">
             <button class="os-btn active" data-os="unix">macOS/Linux</button>
             <button class="os-btn" data-os="windows">Windows</button>
           </div>
@@ -262,6 +262,7 @@ const duration2 = (row2.length / 2 * pixelsPerItem) / pixelsPerSecond;
       // Initialize UI based on detected OS
       osBtns.forEach(b => b.classList.toggle('active', b.dataset.os === currentOs));
       updateCommands();
+      updateVisibility();
     </script>
 
     <!-- Testimonials -->
