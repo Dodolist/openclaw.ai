@@ -53,19 +53,19 @@ echo "==> case: direct PATH"
   assert_eq "$got" "${bin}/clawdbot" "resolve_clawdbot_bin (direct PATH)"
 )
 
-echo "==> case: npm bin -g"
+echo "==> case: npm prefix -g"
 (
-  root="${TMP_DIR}/case-npm-bin"
-  npm_bin="${root}/npm-bin"
+  root="${TMP_DIR}/case-npm-prefix-direct"
+  prefix="${root}/prefix"
   tool_bin="${root}/tool-bin"
 
-  make_exe "${tool_bin}/npm" "if [[ \"\$1\" == \"bin\" && \"\$2\" == \"-g\" ]]; then echo \"${npm_bin}\"; exit 0; fi; exit 1"
-  make_exe "${npm_bin}/clawdbot" 'echo "ok" >/dev/null'
+  make_exe "${tool_bin}/npm" "if [[ \"\$1\" == \"prefix\" && \"\$2\" == \"-g\" ]]; then echo \"${prefix}\"; exit 0; fi; exit 1"
+  make_exe "${prefix}/bin/clawdbot" 'echo "ok" >/dev/null'
 
   export PATH="${tool_bin}:/usr/bin:/bin"
 
   got="$(resolve_clawdbot_bin)"
-  assert_eq "$got" "${npm_bin}/clawdbot" "resolve_clawdbot_bin (npm bin -g)"
+  assert_eq "$got" "${prefix}/bin/clawdbot" "resolve_clawdbot_bin (npm prefix -g)"
 )
 
 echo "==> case: npm prefix -g fallback"

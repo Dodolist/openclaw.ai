@@ -517,5 +517,19 @@
     "images": [
       "https://pbs.twimg.com/media/G-_uYy3XoAAeZVB.jpg"
     ]
+  },
+  {
+    "id": "2013089630317355014",
+    "author": "LLMJunky",
+    "quote": "You should try to think of Clawd as an orchestration layer that can interface with not only your entire machine, but the rest of your coding agents as well.\n\nAnd what makes it supremely useful, in my opinion, is that inferface is now available to you on all of your devices at the same time - especially mobile!\n\nThis means that anything you can do on your local dev machine, you can now do with simple voice memos on your phone.\n\nWorking on a project? Think of some idea while walking to the train? No problem. Drop Clawd a message, tell it to goto your project directory, spin up an agent, and build that feature.",
+    "category": "developer",
+    "likes": 3
+  },
+  {
+    "id": "2013099774937911694",
+    "author": "advait3000",
+    "quote": "Clawdbot is now my primary interface to the digital world. All of my notes, emails, projects, questions, plans, and specs flow through a central system with Discord as the interface. This eliminates tons of friction to go from idea to execution. I don't have to orchestrate a bunch of independent tools anymore. It's just a single interface.",
+    "category": "productivity",
+    "likes": 1
   }
 ]
