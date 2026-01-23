@@ -1113,7 +1113,9 @@ EOF
             fi
             local -a doctor_args=()
             if [[ "$NO_ONBOARD" == "1" ]]; then
-                doctor_args+=("--non-interactive")
+                if "$claw" doctor --help 2>/dev/null | grep -q -- "--non-interactive"; then
+                    doctor_args+=("--non-interactive")
+                fi
             fi
             echo -e "Running ${INFO}clawdbot doctor${NC}..."
             if CLAWDBOT_UPDATE_IN_PROGRESS=1 "$claw" doctor "${doctor_args[@]:-}" </dev/tty; then
