@@ -89,6 +89,42 @@ cleanup_npm_clawdbot_paths() {
     rm -rf "$npm_root"/.clawdbot-* "$npm_root"/clawdbot 2>/dev/null || true
 }
 
+extract_clawdbot_conflict_path() {
+    local log="$1"
+    local path=""
+    path="$(sed -n 's/.*File exists: //p' "$log" | head -n1)"
+    if [[ -z "$path" ]]; then
+        path="$(sed -n 's/.*EEXIST: file already exists, //p' "$log" | head -n1)"
+    fi
+    if [[ -n "$path" ]]; then
+        echo "$path"
+        return 0
+    fi
+    return 1
+}
+
+cleanup_clawdbot_bin_conflict() {
+    local bin_path="$1"
+    if [[ -z "$bin_path" || ! -e "$bin_path" ]]; then
+        return 1
+    fi
+    local npm_bin=""
+    npm_bin="$(npm_global_bin_dir 2>/dev/null || true)"
+    if [[ -n "$npm_bin" && "$bin_path" != "$npm_bin/clawdbot" ]]; then
+        return 1
+    fi
+    if [[ -L "$bin_path" ]]; then
+        local target=""
+        target="$(readlink "$bin_path" 2>/dev/null || true)"
+        if [[ "$target" == *"/node_modules/clawdbot/"* || "$target" == *"/node_modules/moltbot/"* ]]; then
+            rm -f "$bin_path"
+            echo -e "${WARN}→${NC} Removed stale clawdbot symlink at ${INFO}${bin_path}${NC}"
+            return 0
+        fi
+    fi
+    return 1
+}
+
 install_clawdbot_npm() {
     local spec="$1"
     local log
@@ -99,6 +135,19 @@ install_clawdbot_npm() {
             cleanup_npm_clawdbot_paths
             SHARP_IGNORE_GLOBAL_LIBVIPS="$SHARP_IGNORE_GLOBAL_LIBVIPS" npm --loglevel "$NPM_LOGLEVEL" ${NPM_SILENT_FLAG:+$NPM_SILENT_FLAG} --no-fund --no-audit install -g "$spec"
             return $?
+        fi
+        if grep -q "EEXIST" "$log"; then
+            local conflict=""
+            conflict="$(extract_clawdbot_conflict_path "$log" || true)"
+            if [[ -n "$conflict" ]] && cleanup_clawdbot_bin_conflict "$conflict"; then
+                SHARP_IGNORE_GLOBAL_LIBVIPS="$SHARP_IGNORE_GLOBAL_LIBVIPS" npm --loglevel "$NPM_LOGLEVEL" ${NPM_SILENT_FLAG:+$NPM_SILENT_FLAG} --no-fund --no-audit install -g "$spec"
+                return $?
+            fi
+            echo -e "${ERROR}npm failed because a clawdbot binary already exists.${NC}"
+            if [[ -n "$conflict" ]]; then
+                echo -e "${INFO}i${NC} Remove or move ${INFO}${conflict}${NC}, then retry."
+            fi
+            echo -e "${INFO}i${NC} Or rerun with ${INFO}npm install -g --force ${spec}${NC} (overwrites)."
         fi
         return 1
     fi
