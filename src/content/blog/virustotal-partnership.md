@@ -1,7 +1,7 @@
 ---
 title: "OpenClaw Partners with VirusTotal for Skill Security"
 description: "ClawHub skills are now scanned by VirusTotal's threat intelligence platform—bringing industry-leading security to the AI agent ecosystem."
-date: 2026-02-05
+date: 2026-02-07
 authors:
   - name: "Peter Steinberger"
     handle: "steipete"
