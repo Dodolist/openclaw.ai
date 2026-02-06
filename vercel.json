@@ -1,4 +1,16 @@
 {
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/trust",
+      "has": [
+        {
+          "type": "host",
+          "value": "trust.openclaw.ai"
+        }
+      ]
+    }
+  ],
   "redirects": [
     {
       "source": "/(.*)",
