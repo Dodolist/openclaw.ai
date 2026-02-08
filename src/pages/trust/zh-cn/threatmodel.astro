@@ -1,16 +1,17 @@
 ---
 import yaml from 'js-yaml';
-import threatsYaml from '../../data/threats.yaml?raw';
+import threatsYaml from '../../../i18n/zh-cn/threats.yaml?raw';
+import t from '../../../i18n/zh-cn/threatmodel.json';
 
 const isSubdomain = Astro.url.hostname === 'trust.openclaw.ai';
-const trustHref = isSubdomain ? '/' : '/trust';
-const threatModelHref = isSubdomain ? '/threatmodel' : '/trust/threatmodel';
+const trustHref = isSubdomain ? '/zh-cn' : '/trust/zh-cn';
+const threatModelHref = isSubdomain ? '/zh-cn/threatmodel' : '/trust/zh-cn/threatmodel';
 
 const langLinks = {
-  en: { label: 'EN', trust: trustHref, threatmodel: threatModelHref },
-  'zh-cn': { label: '中文', trust: isSubdomain ? '/zh-cn' : '/trust/zh-cn', threatmodel: isSubdomain ? '/zh-cn/threatmodel' : '/trust/zh-cn/threatmodel' },
-  ko: { label: '한국어', trust: isSubdomain ? '/ko' : '/trust/ko', threatmodel: isSubdomain ? '/ko/threatmodel' : '/trust/ko/threatmodel' },
-  ja: { label: '日本語', trust: isSubdomain ? '/ja' : '/trust/ja', threatmodel: isSubdomain ? '/ja/threatmodel' : '/trust/ja/threatmodel' },
+  en: { label: 'EN', trust: isSubdomain ? '/' : '/trust', threatmodel: isSubdomain ? '/threatmodel' : '/trust/threatmodel' },
+  'zh-cn': { label: '\u4e2d\u6587', trust: isSubdomain ? '/zh-cn' : '/trust/zh-cn', threatmodel: isSubdomain ? '/zh-cn/threatmodel' : '/trust/zh-cn/threatmodel' },
+  ko: { label: '\ud55c\uad6d\uc5b4', trust: isSubdomain ? '/ko' : '/trust/ko', threatmodel: isSubdomain ? '/ko/threatmodel' : '/trust/ko/threatmodel' },
+  ja: { label: '\u65e5\u672c\u8a9e', trust: isSubdomain ? '/ja' : '/trust/ja', threatmodel: isSubdomain ? '/ja/threatmodel' : '/trust/ja/threatmodel' },
 };
 
 interface Threat { id: string; name: string; tactic: string; atlas: string; risk: string; category: string; description: string; attackVector: string; affected: string; mitigations: string; residualRisk: string; recommendations: string; }
@@ -61,12 +62,12 @@ for (const b of trustBoundaries) {
 }
 ---
 
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Threat Model — OpenClaw Trust</title>
-  <meta name="description" content="OpenClaw threat model based on MITRE ATLAS framework — adversarial threats to AI agent systems." />
+  <title>{t.meta.title}</title>
+  <meta name="description" content={t.meta.description} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -693,11 +694,11 @@ for (const b of trustBoundaries) {
         <img src="/openclaw-logo-text-dark.png" alt="OpenClaw" />
       </a>
       <div class="topbar-nav">
-        <a href={trustHref} class="topbar-link">Trust</a>
-        <a href={threatModelHref} class="topbar-link active">Threat Model</a>
+        <a href={trustHref} class="topbar-link">{t.nav.trust}</a>
+        <a href={threatModelHref} class="topbar-link active">{t.nav.threatModel}</a>
         <div class="lang-switcher">
-          <a href={langLinks.en.threatmodel} class="lang-link active">{langLinks.en.label}</a>
-          <a href={langLinks['zh-cn'].threatmodel} class="lang-link">{langLinks['zh-cn'].label}</a>
+          <a href={langLinks.en.threatmodel} class="lang-link">{langLinks.en.label}</a>
+          <a href={langLinks['zh-cn'].threatmodel} class="lang-link active">{langLinks['zh-cn'].label}</a>
           <a href={langLinks.ko.threatmodel} class="lang-link">{langLinks.ko.label}</a>
           <a href={langLinks.ja.threatmodel} class="lang-link">{langLinks.ja.label}</a>
         </div>
@@ -706,32 +707,32 @@ for (const b of trustBoundaries) {
   </nav>
 
   <main class="tm-container">
-    <h1 class="article-title">Threat Model</h1>
-    <p class="subtitle">MITRE ATLAS Framework for AI Agent Security</p>
+    <h1 class="article-title">{t.header.title}</h1>
+    <p class="subtitle">{t.header.subtitle}</p>
     <div class="header-badges">
-      <span class="header-badge badge-version">v1.0-draft</span>
-      <span class="header-badge badge-atlas">MITRE ATLAS 2025</span>
+      <span class="header-badge badge-version">{t.header.badgeVersion}</span>
+      <span class="header-badge badge-atlas">{t.header.badgeAtlas}</span>
     </div>
 
     {data ? (
       <>
         <div class="stats-grid">
-          <div class="stat-card"><div class="stat-value">{threats.length}</div><div class="stat-label">Total Threats</div></div>
-          <div class="stat-card"><div class="stat-value critical">{criticalCount}</div><div class="stat-label">Critical Risk</div></div>
-          <div class="stat-card"><div class="stat-value high">{highCount}</div><div class="stat-label">High Risk</div></div>
-          <div class="stat-card"><div class="stat-value medium">{mediumCount}</div><div class="stat-label">Medium Risk</div></div>
-          <div class="stat-card"><div class="stat-value low">{lowCount}</div><div class="stat-label">Low Risk</div></div>
+          <div class="stat-card"><div class="stat-value">{threats.length}</div><div class="stat-label">{t.stats.totalThreats}</div></div>
+          <div class="stat-card"><div class="stat-value critical">{criticalCount}</div><div class="stat-label">{t.stats.criticalRisk}</div></div>
+          <div class="stat-card"><div class="stat-value high">{highCount}</div><div class="stat-label">{t.stats.highRisk}</div></div>
+          <div class="stat-card"><div class="stat-value medium">{mediumCount}</div><div class="stat-label">{t.stats.mediumRisk}</div></div>
+          <div class="stat-card"><div class="stat-value low">{lowCount}</div><div class="stat-label">{t.stats.lowRisk}</div></div>
         </div>
 
         <div class="risk-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div><span>Critical</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div><span>High</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div><span>Medium</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div><span>Low</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div><span>{t.legend.critical}</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div><span>{t.legend.high}</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div><span>{t.legend.medium}</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div><span>{t.legend.low}</span></div>
         </div>
 
         <section class="matrix-section">
-          <h2 class="section-title">Threat Matrix by ATLAS Tactic</h2>
+          <h2 class="section-title">{t.sections.threatMatrix}</h2>
           <div class="matrix-container">
             <div class="matrix">
               {tactics.map(tactic => {
@@ -762,7 +763,7 @@ for (const b of trustBoundaries) {
         </section>
 
         <section class="chains-section">
-          <h2 class="section-title">Critical Attack Chains</h2>
+          <h2 class="section-title">{t.sections.attackChains}</h2>
           <div class="chains-grid">
             {attackChains.map(chain => (
               <div class="chain-card">
@@ -779,7 +780,7 @@ for (const b of trustBoundaries) {
         </section>
 
         <section class="boundaries-section">
-          <h2 class="section-title">Trust Boundaries</h2>
+          <h2 class="section-title">{t.sections.trustBoundaries}</h2>
           <div class="boundaries-flow">
             {boundaryItems.map((item, i) => (
               <>
@@ -822,24 +823,24 @@ for (const b of trustBoundaries) {
 
         <footer class="tm-footer">
           <div class="footer-atlas">
-            <p>Built on <a href="https://atlas.mitre.org/" target="_blank">MITRE ATLAS</a> (Adversarial Threat Landscape for AI Systems)</p>
-            <p class="footer-atlas-sub">ATLAS is maintained by <a href="https://www.mitre.org/" target="_blank">MITRE</a> in collaboration with the AI security community</p>
+            <p>{t.footer.builtOn} <a href="https://atlas.mitre.org/" target="_blank">{t.footer.atlasFullName}</a></p>
+            <p class="footer-atlas-sub">{t.footer.maintainedBy}</p>
           </div>
           <div class="footer-links">
-            <a href="https://atlas.mitre.org/techniques/" target="_blank">ATLAS Techniques</a><span class="footer-sep">|</span>
-            <a href="https://atlas.mitre.org/tactics/" target="_blank">ATLAS Tactics</a><span class="footer-sep">|</span>
-            <a href="https://github.com/openclaw/trust" target="_blank">Contribute</a>
+            <a href="https://atlas.mitre.org/techniques/" target="_blank">{t.footer.atlasTechniques}</a><span class="footer-sep">|</span>
+            <a href="https://atlas.mitre.org/tactics/" target="_blank">{t.footer.atlasTactics}</a><span class="footer-sep">|</span>
+            <a href="https://github.com/openclaw/trust" target="_blank">{t.footer.contribute}</a>
           </div>
-          <div class="footer-contact"><p>Report security issues to <a href="mailto:security@openclaw.ai">security@openclaw.ai</a></p></div>
-          <p class="footer-version">OpenClaw Threat Model v1.0-draft</p>
+          <div class="footer-contact"><p>{t.footer.reportIssues} <a href="mailto:security@openclaw.ai">security@openclaw.ai</a></p></div>
+          <p class="footer-version">{t.footer.version}</p>
         </footer>
       </>
     ) : (
-      <p>Could not load the threat model. <a href="https://github.com/openclaw/trust/blob/main/threats.yaml" target="_blank">View on GitHub</a>.</p>
+      <p>{t.error.loadFailed} <a href="https://github.com/openclaw/trust/blob/main/threats.yaml" target="_blank">{t.error.viewOnGithub}</a>.</p>
     )}
   </main>
 
-  <script define:vars={{ threats }}>
+  <script define:vars={{ threats, detailLabels: t.detail }}>
     function getRiskColor(risk) {
       switch (risk) { case 'Critical': return '#ef4444'; case 'High': return '#f97316'; case 'Medium': return '#eab308'; case 'Low': return '#22c55e'; default: return '#6b7280'; }
     }
@@ -849,8 +850,8 @@ for (const b of trustBoundaries) {
       document.getElementById('detailId').textContent = threat.id + ' \u2022 ' + threat.tactic;
       document.getElementById('detailTitle').textContent = threat.name;
       var rc = getRiskColor(threat.risk);
-      document.getElementById('detailBadges').innerHTML = '<span class="detail-badge" style="background:' + rc + '12;color:' + rc + '">' + threat.risk + ' Risk</span><a href="https://atlas.mitre.org/techniques/' + threat.atlas + '" target="_blank" class="detail-badge atlas-link" style="background:rgba(255,90,54,0.08)">' + threat.atlas + '</a>';
-      document.getElementById('detailBody').innerHTML = '<div class="detail-section"><div class="detail-label">Description</div><div class="detail-value">' + threat.description + '</div></div><div class="detail-section"><div class="detail-label">Attack Vector</div><div class="detail-value">' + threat.attackVector + '</div></div><div class="detail-section"><div class="detail-label">Affected Components</div><div class="detail-value">' + threat.affected + '</div></div><div class="detail-section"><div class="detail-label">Current Mitigations</div><div class="detail-value">' + threat.mitigations + '</div></div><div class="detail-section"><div class="detail-label">Residual Risk</div><div class="detail-value">' + threat.residualRisk + '</div></div><div class="detail-section"><div class="detail-label">Recommendations</div><div class="detail-value">' + threat.recommendations + '</div></div>';
+      document.getElementById('detailBadges').innerHTML = '<span class="detail-badge" style="background:' + rc + '12;color:' + rc + '">' + threat.risk + ' ' + detailLabels.riskSuffix + '</span><a href="https://atlas.mitre.org/techniques/' + threat.atlas + '" target="_blank" class="detail-badge atlas-link" style="background:rgba(255,90,54,0.08)">' + threat.atlas + '</a>';
+      document.getElementById('detailBody').innerHTML = '<div class="detail-section"><div class="detail-label">' + detailLabels.description + '</div><div class="detail-value">' + threat.description + '</div></div><div class="detail-section"><div class="detail-label">' + detailLabels.attackVector + '</div><div class="detail-value">' + threat.attackVector + '</div></div><div class="detail-section"><div class="detail-label">' + detailLabels.affected + '</div><div class="detail-value">' + threat.affected + '</div></div><div class="detail-section"><div class="detail-label">' + detailLabels.mitigations + '</div><div class="detail-value">' + threat.mitigations + '</div></div><div class="detail-section"><div class="detail-label">' + detailLabels.residualRisk + '</div><div class="detail-value">' + threat.residualRisk + '</div></div><div class="detail-section"><div class="detail-label">' + detailLabels.recommendations + '</div><div class="detail-value">' + threat.recommendations + '</div></div>';
       document.getElementById('detailOverlay').classList.add('active');
       document.querySelectorAll('.threat-card').forEach(function(c) { c.classList.remove('selected'); });
       var sel = document.querySelector('[data-threat-id="' + threatId + '"]');
