@@ -176,6 +176,45 @@ EOF
   assert_nonempty "$out" "run_pnpm --version output"
 )
 
+echo "==> case: ensure_pnpm_binary_for_scripts (user-local wrapper fallback)"
+(
+  root="${TMP_DIR}/case-pnpm-user-wrapper"
+  tool_bin="${root}/tool-bin"
+  home_dir="${root}/home"
+  mkdir -p "${tool_bin}" "${home_dir}"
+
+  cat >"${tool_bin}/corepack" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == "enable" ]]; then
+  exit 0
+fi
+if [[ "${1:-}" == "prepare" ]]; then
+  exit 0
+fi
+if [[ "${1:-}" == "pnpm" && "${2:-}" == "--version" ]]; then
+  echo "10.29.2"
+  exit 0
+fi
+if [[ "${1:-}" == "pnpm" ]]; then
+  exit 0
+fi
+exit 1
+EOF
+  chmod +x "${tool_bin}/corepack"
+
+  export HOME="${home_dir}"
+  export PATH="${tool_bin}:/usr/bin:/bin"
+  PNPM_CMD=(corepack pnpm)
+  stub_ui_and_quiet_runner
+
+  ensure_pnpm_binary_for_scripts
+  got="$(command -v pnpm || true)"
+  assert_eq "$got" "${home_dir}/.local/bin/pnpm" "ensure_pnpm_binary_for_scripts wrapper path"
+  out="$(pnpm --version)"
+  assert_eq "$out" "10.29.2" "ensure_pnpm_binary_for_scripts pnpm --version"
+)
+
 echo "==> case: ensure_pnpm (npm fallback install)"
 (
   root="${TMP_DIR}/case-pnpm-npm-fallback"
@@ -246,6 +285,7 @@ echo "==> case: install_openclaw_from_git (deps step uses run_pnpm function)"
   check_git() { return 0; }
   install_git() { fail "install_git should not be called"; }
   ensure_pnpm() { :; }
+  ensure_pnpm_binary_for_scripts() { :; }
   cleanup_legacy_submodules() { :; }
   ensure_user_local_bin_on_path() { mkdir -p "${HOME}/.local/bin"; }
   run_pnpm() { :; }

@@ -1264,6 +1264,44 @@ ensure_pnpm() {
     return 1
 }
 
+ensure_pnpm_binary_for_scripts() {
+    if command -v pnpm >/dev/null 2>&1; then
+        return 0
+    fi
+
+    if command -v corepack >/dev/null 2>&1; then
+        ui_info "Ensuring pnpm command is available"
+        corepack enable >/dev/null 2>&1 || true
+        corepack prepare pnpm@10 --activate >/dev/null 2>&1 || true
+        refresh_shell_command_cache
+        if command -v pnpm >/dev/null 2>&1; then
+            ui_success "pnpm command enabled via Corepack"
+            return 0
+        fi
+    fi
+
+    if [[ "${PNPM_CMD[*]}" == "corepack pnpm" ]] && command -v corepack >/dev/null 2>&1; then
+        ensure_user_local_bin_on_path
+        local user_pnpm="${HOME}/.local/bin/pnpm"
+        cat >"${user_pnpm}" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+exec corepack pnpm "$@"
+EOF
+        chmod +x "${user_pnpm}"
+        refresh_shell_command_cache
+
+        if command -v pnpm >/dev/null 2>&1; then
+            ui_warn "pnpm shim not on PATH; installed user-local wrapper at ${user_pnpm}"
+            return 0
+        fi
+    fi
+
+    ui_error "pnpm command not available on PATH"
+    ui_info "Install pnpm globally (npm install -g pnpm@10) and retry"
+    return 1
+}
+
 run_pnpm() {
     if ! pnpm_cmd_is_ready; then
         ensure_pnpm
@@ -1436,6 +1474,7 @@ install_openclaw_from_git() {
     fi
 
     ensure_pnpm
+    ensure_pnpm_binary_for_scripts
 
     if [[ ! -d "$repo_dir" ]]; then
         run_quiet_step "Cloning OpenClaw" git clone "$repo_url" "$repo_dir"
