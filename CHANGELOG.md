@@ -2,6 +2,7 @@
 
 ## 2026-02-13
 
+- Landing page: harden quickstart script null-safety, clipboard fallback behavior, and OS detection; remove redundant npm/pnpm lockfiles for Bun-first workflow (#37, thanks @HemantSudarshan).
 - Integrations: replace stale Signal docs link with canonical OpenClaw channel docs URL (#44, thanks @deftdawg).
 - Docs: rename README references from old Molt/Clawd names to OpenClaw/openclaw.ai and update Discord invite branding link (#57, thanks @knocte).
 - Installer: preinstall Linux native build toolchain before NodeSource setup to reduce npm native-module failures (`make`, `g++`, `cmake`, `python3`) (#45, thanks @wtfloris).
