@@ -775,6 +775,21 @@ const duration2 = (row2.length / 2 * pixelsPerItem) / pixelsPerSecond;
       </div>
     </section>
 
+    <!-- Sponsors -->
+    <section class="sponsors">
+      <h2 class="section-title">
+        <span class="claw-accent">⟩</span> Sponsors
+      </h2>
+      <div class="sponsors-grid">
+        <a href="https://openai.com" target="_blank" rel="noopener" class="sponsor-card">
+          <img src="/sponsors/openai.svg" alt="OpenAI" class="sponsor-logo sponsor-logo-openai" loading="lazy" />
+        </a>
+        <a href="https://blacksmith.sh" target="_blank" rel="noopener" class="sponsor-card">
+          <img src="/sponsors/blacksmith.svg" alt="Blacksmith" class="sponsor-logo sponsor-logo-blacksmith" loading="lazy" />
+        </a>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
       <nav class="footer-nav">
@@ -1755,6 +1770,84 @@ const duration2 = (row2.length / 2 * pixelsPerItem) / pixelsPerSecond;
   .macos-meta {
     font-size: 0.8rem;
     color: var(--text-muted);
+  }
+
+  /* Sponsors */
+  .sponsors {
+    margin-bottom: 56px;
+    animation: fadeInUp 0.8s ease-out 0.72s both;
+  }
+
+  .sponsors .section-title {
+    margin-bottom: 24px;
+  }
+
+  .sponsors-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .sponsor-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 32px;
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-card);
+    backdrop-filter: blur(12px);
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sponsor-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: 0 12px 40px var(--shadow-coral-soft);
+  }
+
+  .sponsor-logo {
+    height: 36px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.25s ease;
+  }
+
+  .sponsor-card:hover .sponsor-logo {
+    opacity: 1;
+  }
+
+  .sponsor-logo-openai {
+    height: 32px;
+  }
+
+  .sponsor-logo-blacksmith {
+    height: 32px;
+  }
+
+  @media (max-width: 480px) {
+    .sponsors-grid {
+      gap: 16px;
+    }
+
+    .sponsor-card {
+      padding: 16px 24px;
+    }
+
+    .sponsor-logo {
+      height: 28px;
+    }
+
+    .sponsor-logo-openai {
+      height: 24px;
+    }
+
+    .sponsor-logo-blacksmith {
+      height: 24px;
+    }
   }
 
   /* Footer */
